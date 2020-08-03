@@ -1,0 +1,101 @@
+<!DOCTYPE html?
+<html>
+	<head>
+		<button id="button">SUBMIT</button>
+		<canvas id="canvas" height="700" width="1250"></canvas>
+		<link rel="stylesheet" type="text/css" href="circle.css">
+	</head>
+
+	<head>
+		<p>
+			<label x="x"> Enter x:</label>
+			<input type="text" id="x"></input>
+		</p>
+
+		<p>
+			<label y="y"> Enter y:</label>
+			<input type="text" id="y"></input>
+		</p>
+
+		<p>
+			<label radius="radius"> Enter radius:</label>
+			<input type="text" id="radius"></input>
+		</p>
+
+		<p>
+			<label points="points"> Enter number of points:</label>
+			<input type="text" id="points"></input>
+		</p>
+	</head>
+
+
+    <style>
+        html, body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+        }
+    </style>
+
+	<script>
+		function drawPoint(x,y){
+			var canvas = document.getElementById("canvas");
+			var ctx = canvas.getContext("2d");
+			ctx.beginPath();
+			ctx.rect(x, y, 1, 1);
+			ctx.stroke();
+		}
+
+		function mySin(angle){
+			return Math.sin(angle*Math.PI/180);
+		}
+
+		function myCos(angle){
+			return Math.cos(angle*Math.PI/180);
+		}
+
+		function generateX(radius, angle){
+			var x = radius*myCos(angle);
+			return x;
+		}
+
+		function generateY(radius, angle){
+			var y = radius*mySin(angle);
+			return y;
+		}
+
+		function drawCircle(centerX, centerY, radius, points){
+			var canvas = document.getElementById("canvas");
+			var ctx = canvas.getContext("2d");
+
+			var angleScale=360/points;
+			var angle=0;
+			var x;
+			var y;
+			var i=0;
+			var coordScale=2*radius;
+
+			while(i<points){
+				x=generateX(radius, angle);
+				y=generateY(radius, angle);
+				ctx.beginPath();
+				x+=parseInt(centerX);
+				y+=parseInt(centerY);
+				ctx.rect(x, y, 2, 2);
+				ctx.stroke();
+				angle+=angleScale;
+				i++;
+			}
+		}
+
+		var button = document.getElementById('button');
+
+		button.addEventListener('click', function(event){
+			var x = document.getElementById('x').value;
+			var y = document.getElementById('y').value;
+			var radius = document.getElementById('radius').value;
+			var points = document.getElementById('points').value;	
+			drawCircle(x,y,radius,points);
+		})
+	</script>
+</html>
